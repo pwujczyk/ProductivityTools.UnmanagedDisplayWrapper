@@ -91,8 +91,8 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
         [DllImport("user32.dll")]
         static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumDelegate lpfnEnum, IntPtr dwData);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfoEx lpmi); 
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        internal static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfoEx lpmi);
 
 
         delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RectStruct lprcMonitor, IntPtr dwData);

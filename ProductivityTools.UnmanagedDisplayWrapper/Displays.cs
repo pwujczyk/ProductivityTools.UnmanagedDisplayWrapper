@@ -6,23 +6,29 @@ using System.Text;
 
 namespace ProductivityTools.UnmanagedDisplayWrapper
 {
-    public class Displays
+    public class Displays :List<Display>
     {
-        List<Display> ConnectedDisplays { get; set; }
+        //List<Display> ConnectedDisplays { get; set; }
 
         public void LoadData()
         {
-            this.ConnectedDisplays = new List<Display>();
+            LoadBasicInfo();
+            LoadResolution();
+        }
+
+        private void LoadBasicInfo()
+        {
+            //thisConnectedDisplays = new List<Display>();
             Native.DISPLAY_DEVICE d = new Native.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
             try
             {
                 for (uint id = 0; Native.Methods.EnumDisplayDevices(null, id, ref d, 0); id++)
                 {
-                    Display display = new Display();
-                    this.ConnectedDisplays.Add(display);
                     if (d.StateFlags.HasFlag(Native.DisplayDeviceStateFlags.AttachedToDesktop))
                     {
+                        Display display = new Display();
+                        this.Add(display);
                         display.Id = id;
                         display.Name = d.DeviceName;
                         display.Description = d.DeviceString;
@@ -46,6 +52,39 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                 Console.WriteLine(String.Format("{0}", ex.ToString()));
                 throw ex;
             }
+        }
+
+        private Display GetDisplay(string name)
+        {
+            foreach(var item in this)
+            {
+                if (item.Name==name)
+                {
+                    return item;
+                }
+            }
+            throw new Exception();
+        }
+
+        private void LoadResolution()
+        {
+            Native.Methods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+                delegate (IntPtr hMonitor, IntPtr hdcMonitor, ref RectStruct lprcMonitor, IntPtr dwData)
+                {
+                    MonitorInfoEx mi = new MonitorInfoEx();
+                    mi.Size = (uint)Marshal.SizeOf(mi);
+                    bool success = Native.Methods.GetMonitorInfo(hMonitor, ref mi);
+                    if (success)
+                    {
+                        var di = GetDisplay(mi.DeviceName);
+                        di.ScreenWidth = (mi.Monitor.Right - mi.Monitor.Left).ToString();
+                        di.ScreenHeight = (mi.Monitor.Bottom - mi.Monitor.Top).ToString();
+                        di.MonitorArea = mi.Monitor;
+                        di.WorkArea = mi.WorkArea;
+                        di.Availability = mi.Flags.ToString();
+                    }
+                    return true;
+                }, IntPtr.Zero);
         }
 
         private DEVMODE GetDEVMODE()
@@ -96,7 +135,6 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                 return "Failed To Change The Position.";
             }
         }
-
 
         private void Log(uint id, Native.DISPLAY_DEVICE d)
         {
