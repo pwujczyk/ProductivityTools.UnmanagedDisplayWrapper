@@ -7,6 +7,9 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            var d = new Display();
+            d.LoadData();
+            Console.ReadLine();
         }
     }
 }
