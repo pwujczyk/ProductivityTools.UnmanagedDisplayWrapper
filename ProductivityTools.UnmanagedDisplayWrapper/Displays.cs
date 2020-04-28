@@ -12,6 +12,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
 
         public void LoadData()
         {
+            this.ConnectedDisplays = new List<Display>();
             Native.DISPLAY_DEVICE d = new Native.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
             try
@@ -59,6 +60,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
         public string ChangePosition(int x, int y)
         {
             DEVMODE dm = GetDEVMODE();
+            var xx = Methods.EnumDisplaySettings(@"\\.\DISPLAY1", Methods.ENUM_CURRENT_SETTINGS, ref dm);
             if (0 != Methods.EnumDisplaySettings(@"\\.\DISPLAY1", Methods.ENUM_CURRENT_SETTINGS, ref dm))
             {
                 dm.dmPosition.x = x;
