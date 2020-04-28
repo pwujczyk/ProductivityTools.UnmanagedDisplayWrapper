@@ -95,16 +95,16 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
         static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorInfoEx lpmi); 
 
 
-        delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref Rect lprcMonitor, IntPtr dwData);
+        delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RectStruct lprcMonitor, IntPtr dwData);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Rect
-        {
-            public int left;
-            public int top;
-            public int right;
-            public int bottom;
-        }
+        //[StructLayout(LayoutKind.Sequential)]
+        //public struct Rect
+        //{
+        //    public int left;
+        //    public int top;
+        //    public int right;
+        //    public int bottom;
+        //}
 
         /// <summary>
         /// The struct that contains the display information
@@ -114,8 +114,8 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             public string Availability { get; set; }
             public string ScreenHeight { get; set; }
             public string ScreenWidth { get; set; }
-            public Rect MonitorArea { get; set; }
-            public Rect WorkArea { get; set; }
+            public RectStruct MonitorArea { get; set; }
+            public RectStruct WorkArea { get; set; }
         }
 
         /// <summary>
@@ -134,21 +134,21 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             DisplayInfoCollection col = new DisplayInfoCollection();
 
             EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
-                delegate (IntPtr hMonitor, IntPtr hdcMonitor, ref Rect lprcMonitor, IntPtr dwData)
+                delegate (IntPtr hMonitor, IntPtr hdcMonitor, ref RectStruct lprcMonitor, IntPtr dwData)
                 {
                     MonitorInfoEx mi = new MonitorInfoEx();
                      mi.Size = (uint)Marshal.SizeOf(mi);
                     bool success = GetMonitorInfo(hMonitor, ref mi);
-                    //if (success)
-                    //{
-                    //    DisplayInfo di = new DisplayInfo();
-                    //    di.ScreenWidth = (mi.monitor.right - mi.monitor.left).ToString();
-                    //    di.ScreenHeight = (mi.monitor.bottom - mi.monitor.top).ToString();
-                    //    di.MonitorArea = mi.monitor;
-                    //    di.WorkArea = mi.work;
-                    //    di.Availability = mi.flags.ToString();
-                    //    col.Add(di);
-                    //}
+                    if (success)
+                    {
+                        DisplayInfo di = new DisplayInfo();
+                        di.ScreenWidth = (mi.Monitor.Right - mi.Monitor.Left).ToString();
+                        di.ScreenHeight = (mi.Monitor.Bottom - mi.Monitor.Top).ToString();
+                        di.MonitorArea = mi.Monitor;
+                        di.WorkArea = mi.WorkArea;
+                        di.Availability = mi.Flags.ToString();
+                        col.Add(di);
+                    }
                     return true;
                 }, IntPtr.Zero);
             return col;
