@@ -8,6 +8,9 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
         {
             Console.WriteLine("Hello World!");
             var display = new Displays();
+            display.LoadData();
+            uint d = 3;
+            display.External(d);
             //display.MoveMainToLeft();
             //display.MoveMainDisplayToRight();
 

@@ -51,26 +51,26 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
         public Int32 y;
     }
 
-    internal enum DM : short
-    {
-        /// <summary>
-        /// Unknown setting.
-        /// </summary>
-        DMDUP_UNKNOWN = 0,
+    //internal enum DM : short
+    //{
+    //    /// <summary>
+    //    /// Unknown setting.
+    //    /// </summary>
+    //    DMDUP_UNKNOWN = 0,
 
-        /// <summary>
-        /// Normal (nonduplex) printing.
-        /// </summary>
-        DMDUP_SIMPLEX = 1,
+    //    /// <summary>
+    //    /// Normal (nonduplex) printing.
+    //    /// </summary>
+    //    DMDUP_SIMPLEX = 1,
 
-        /// <summary>
-        /// Long-edge binding, that is, the long edge of the page is vertical.
-        /// </summary>
-        DMDUP_VERTICAL = 2,
+    //    /// <summary>
+    //    /// Long-edge binding, that is, the long edge of the page is vertical.
+    //    /// </summary>
+    //    DMDUP_VERTICAL = 2,
 
-        /// <summary>
-        /// Short-edge binding, that is, the long edge of the page is horizontal.
-        /// </summary>
-        DMDUP_HORIZONTAL = 3,
-    }
+    //    /// <summary>
+    //    /// Short-edge binding, that is, the long edge of the page is horizontal.
+    //    /// </summary>
+    //    DMDUP_HORIZONTAL = 3,
+    //}
 }
