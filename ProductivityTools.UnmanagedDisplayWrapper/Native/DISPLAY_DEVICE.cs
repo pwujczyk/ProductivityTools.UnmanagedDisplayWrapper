@@ -22,7 +22,6 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
         public string DeviceKey;
     }
 
-
     [Flags()]
     public enum DisplayDeviceStateFlags : int
     {

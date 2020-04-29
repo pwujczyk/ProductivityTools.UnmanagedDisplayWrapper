@@ -7,12 +7,14 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var d = new Displays();
-            d.ChangePosition(1, 1);
-            d.LoadData();
-            XXX xXX = new UnmanagedDisplayWrapper.XXX();
-            xXX.GetDisplays();
-            Console.ReadLine();
+            var display = new Displays();
+            //display.MoveMainToLeft();
+            //display.MoveMainDisplayToRight();
+
+            //display.LoadData();
+            //XXX xXX = new UnmanagedDisplayWrapper.XXX();
+            //xXX.GetDisplays();
+          //  Console.ReadLine();
         }
     }
 }

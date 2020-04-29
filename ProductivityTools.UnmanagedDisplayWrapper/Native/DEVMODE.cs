@@ -8,44 +8,41 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
     [StructLayout(LayoutKind.Sequential)]
     internal struct DEVMODE
     {
-        private const int CCHDEVICENAME2 = 32;
-        private const int CCHFORMNAME2 = 32;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME2)]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string dmDeviceName;
-        public Int16 dmSpecVersion;
-        public Int16 dmDriverVersion;
-        public Int16 dmSize;
-        public Int16 dmDriverExtra;
-        public DM dmFields;
 
-        public Int16 dmOrientation;
-        public Int16 dmPaperSize;
-        public Int16 dmPaperLength;
-        public Int16 dmPaperWidth;
-        public Int16 dmScale;
-        public Int16 dmCopies;
-        public Int16 dmDefaultSource;
-        public Int16 dmPrintQuality;
-
-        public POINTL dmPosition;
-        public Int32 dmDisplayOrientation;
-        public Int32 dmDisplayFixedOutput;
-
+        public short dmSpecVersion;
+        public short dmDriverVersion;
+        public short dmSize;
+        public short dmDriverExtra;
+        public int dmFields;
+        public int dmPositionX;
+        public int dmPositionY;
+        public int dmDisplayOrientation;
+        public int dmDisplayFixedOutput;
         public short dmColor;
         public short dmDuplex;
         public short dmYResolution;
         public short dmTTOption;
         public short dmCollate;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHFORMNAME2)]
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string dmFormName;
-        public Int16 dmLogPixels;
-        public Int32 dmBitsPerPel;
-        public Int32 dmPelsWidth;
-        public Int32 dmPelsHeight;
-        public Int32 dmDisplayFlags;
-        //public Int32 dmNup;
-        public Int32 dmDisplayFrequency;
+
+        public short dmLogPixels;
+        public short dmBitsPerPel;
+        public int dmPelsWidth;
+        public int dmPelsHeight;
+        public int dmDisplayFlags;
+        public int dmDisplayFrequency;
+        public int dmICMMethod;
+        public int dmICMIntent;
+        public int dmMediaType;
+        public int dmDitherType;
+        public int dmReserved1;
+        public int dmReserved2;
+        public int dmPanningWidth;
+        public int dmPanningHeight;
     }
 
     struct POINTL
