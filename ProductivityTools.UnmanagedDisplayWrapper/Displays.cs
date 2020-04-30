@@ -16,17 +16,11 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             LoadResolution();
         }
 
-        public void MoveMainToLeft()
+        public void MoveMainDisplayToLeft()
         {
             LoadData();
             ChangePosition(this[0].Name, -1 * this[0].MonitorArea.Right, 0);
         }
-
-        //public void MoveExternalToLeft()
-        //{
-        //    LoadData();
-        //    ChangePosition(this[1].Name, -1600, 0);
-        //}
 
         public void MoveMainDisplayToRight()
         {
@@ -34,11 +28,17 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             ChangePosition(this[0].Name, this[0].MonitorArea.Right, 0);
         }
 
-        //public void MoveExternalDisplayToRight()
-        //{
-        //    LoadData();
-        //    ChangePosition(this[1].Name, this[1].MonitorArea.Right, 0);
-        //}
+        public void MoveExternalToLeft()
+        {
+            LoadData();
+            External(3,-1600,0);
+        }
+
+        public void MoveExternalDisplayToRight()
+        {
+            LoadData();
+            External(3,1600,0);
+        }
 
         private void LoadBasicInfo()
         {
@@ -120,19 +120,17 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             return dm;
         }
 
-        public void External(uint deviceId)
+        private void External(uint deviceId, int x, int y)
         {
             DISPLAY_DEVICE d = new DISPLAY_DEVICE();
             DEVMODE dm = new DEVMODE();
             d.cb = Marshal.SizeOf(d);
-          //  int deviceID = 1; // This is only for my device setting. Go through the whole EnumDisplayDevices to find your device  
             Native.Methods.EnumDisplayDevices(null, deviceId, ref d, 0); //
             Native.Methods.EnumDisplaySettings(d.DeviceName, 0, ref dm);
             // dm.dmPelsWidth = 1024;
             // dm.dmPelsHeight = 768;
-            dm.dmPositionX = -1600;
-            dm.dmPositionY = 0;
-            //dm.dmPositionX = Screen.PrimaryScreen.Bounds.Right;
+            dm.dmPositionX = x;
+            dm.dmPositionY = y;
             dm.dmFields = (int)DM.Position;
             Native.Methods.ChangeDisplaySettingsEx(d.DeviceName, ref dm, IntPtr.Zero, ChangeDisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
         }
