@@ -9,7 +9,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
             Console.WriteLine("Hello World!");
             var display = new Displays();
             display.LoadData();
-            uint d = 3;
+
             //display.MoveExternalDisplayToLeft();
             //display.MoveExternalDisplayToRight();
 
@@ -18,8 +18,6 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
             //display.MoveMainDisplayToLeft();
             
 
-            //XXX xXX = new UnmanagedDisplayWrapper.XXX();
-            //xXX.GetDisplays();
             //  Console.ReadLine();
         }
     }

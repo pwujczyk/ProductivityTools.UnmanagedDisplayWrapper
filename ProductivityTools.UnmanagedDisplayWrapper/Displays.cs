@@ -151,7 +151,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             // dm.dmPelsHeight = 768;
             dm.dmPositionX = x;
             dm.dmPositionY = y;
-            dm.dmFields = (int)DM.Position;
+            dm.dmFields = (int)DMFlags.Position;
             Native.Methods.ChangeDisplaySettingsEx(d.DeviceName, ref dm, IntPtr.Zero, ChangeDisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
         }
 
@@ -164,8 +164,8 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                 dm.dmPositionX = x;
                 dm.dmPositionY = y;
 
-                Methods.DISP_CHANGE iRet = Native.Methods.ChangeDisplaySettings(ref dm, ChangeDisplaySettingsFlags.CDS_TEST);
-                if (iRet == Methods.DISP_CHANGE.Failed)
+                DisplayChangeResult iRet = Native.Methods.ChangeDisplaySettings(ref dm, ChangeDisplaySettingsFlags.CDS_TEST);
+                if (iRet == DisplayChangeResult.Failed)
                 {
                     return "Unable To Process Your Request. Sorry For This Inconvenience.";
                 }
@@ -174,11 +174,11 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                     iRet = Native.Methods.ChangeDisplaySettings(ref dm, 0);
                     switch (iRet)
                     {
-                        case Methods.DISP_CHANGE.Successful:
+                        case DisplayChangeResult.Successful:
                             {
                                 return "Success";
                             }
-                        case Methods.DISP_CHANGE.Restart:
+                        case DisplayChangeResult.Restart:
                             {
                                 return "You Need To Reboot For The Change To Happen.\n If You Feel Any Problem After Rebooting Your Machine\nThen Try To Change Resolution In Safe Mode.";
                             }
