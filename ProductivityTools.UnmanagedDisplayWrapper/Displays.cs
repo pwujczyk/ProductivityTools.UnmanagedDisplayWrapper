@@ -6,7 +6,17 @@ using System.Text;
 
 namespace ProductivityTools.UnmanagedDisplayWrapper
 {
-    public class Displays : List<Display>
+    public interface IDisplays
+    {
+        string ChangePosition(string name, int x, int y);
+        void LoadData();
+        void MoveExternalDisplayToRight();
+        void MoveExternalDisplayToLeft();
+        void MoveMainDisplayToLeft();
+        void MoveMainDisplayToRight();
+    }
+
+    public class Displays : List<Display>, IDisplays
     {
         //List<Display> ConnectedDisplays { get; set; }
 
@@ -28,21 +38,20 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             ChangePosition(this[0].Name, this[0].MonitorArea.Right, 0);
         }
 
-        public void MoveExternalToLeft()
+        public void MoveExternalDisplayToLeft()
         {
             LoadData();
-            External(3,-1600,0);
+            External(3, -1600, 0);
         }
 
         public void MoveExternalDisplayToRight()
         {
             LoadData();
-            External(3,1600,0);
+            External(3, 1600, 0);
         }
 
         private void LoadBasicInfo()
         {
-            //thisConnectedDisplays = new List<Display>();
             Native.DISPLAY_DEVICE d = new Native.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
             try
@@ -144,8 +153,8 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                 dm.dmPositionX = x;
                 dm.dmPositionY = y;
 
-                int iRet = Native.Methods.ChangeDisplaySettings(ref dm, Native.Methods.CDS_TEST);
-                if (iRet == Native.Methods.DISP_CHANGE_FAILED)
+                Methods.DISP_CHANGE iRet = Native.Methods.ChangeDisplaySettings(ref dm, ChangeDisplaySettingsFlags.CDS_TEST);
+                if (iRet == Methods.DISP_CHANGE.Failed)
                 {
                     return "Unable To Process Your Request. Sorry For This Inconvenience.";
                 }
@@ -154,11 +163,11 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                     iRet = Native.Methods.ChangeDisplaySettings(ref dm, 0);
                     switch (iRet)
                     {
-                        case Native.Methods.DISP_CHANGE_SUCCESSFUL:
+                        case Methods.DISP_CHANGE.Successful:
                             {
                                 return "Success";
                             }
-                        case Native.Methods.DISP_CHANGE_RESTART:
+                        case Methods.DISP_CHANGE.Restart:
                             {
                                 return "You Need To Reboot For The Change To Happen.\n If You Feel Any Problem After Rebooting Your Machine\nThen Try To Change Resolution In Safe Mode.";
                             }

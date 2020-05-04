@@ -11,7 +11,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
 
         //main one
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        internal static extern int ChangeDisplaySettings(ref DEVMODE lpDevMode, int dwFlags);
+        internal static extern Methods.DISP_CHANGE ChangeDisplaySettings(ref DEVMODE lpDevMode, ChangeDisplaySettingsFlags dwFlags);
 
         //external one
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -31,11 +31,11 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
         internal delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RectStruct lprcMonitor, IntPtr dwData);
 
         internal const int ENUM_CURRENT_SETTINGS = -1;
-        internal const int CDS_UPDATEREGISTRY = 0x01;
-        internal const int CDS_TEST = 0x02;
-        internal const int DISP_CHANGE_SUCCESSFUL = 0;
-        internal const int DISP_CHANGE_RESTART = 1;
-        internal const int DISP_CHANGE_FAILED = -1;
+        //internal const int CDS_UPDATEREGISTRY = 0x01;
+        //internal const int CDS_TEST = 0x02;
+        //internal const int DISP_CHANGE_SUCCESSFUL = 0;
+        //internal const int DISP_CHANGE_RESTART = 1;
+        //internal const int DISP_CHANGE_FAILED = -1;
 
         public enum DISP_CHANGE : int
         {
@@ -48,8 +48,6 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
             BadParam = -5,
             BadDualView = -6
         }
-
-        
     }
     [Flags()]
     public enum ChangeDisplaySettingsFlags : uint
