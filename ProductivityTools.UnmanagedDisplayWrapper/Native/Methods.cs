@@ -30,7 +30,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Native
 
         internal delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RectStruct lprcMonitor, IntPtr dwData);
 
-        internal const int ENUM_CURRENT_SETTINGS = -3;
+        internal const int ENUM_CURRENT_SETTINGS = -1;
         internal const int CDS_UPDATEREGISTRY = 0x01;
         internal const int CDS_TEST = 0x02;
         internal const int DISP_CHANGE_SUCCESSFUL = 0;

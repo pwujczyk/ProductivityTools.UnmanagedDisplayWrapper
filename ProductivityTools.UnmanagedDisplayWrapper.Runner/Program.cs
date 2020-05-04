@@ -10,14 +10,16 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
             var display = new Displays();
             display.LoadData();
             uint d = 3;
-            display.MoveExternalToLeft();
-            //display.MoveMainToLeft();
-            //display.MoveMainDisplayToRight();
+            //display.MoveExternalToLeft();
+            display.MoveExternalDisplayToRight();
 
+
+            //display.MoveMainDisplayToRight();
+            //display.MoveMainDisplayToLeft();
             //display.LoadData();
             //XXX xXX = new UnmanagedDisplayWrapper.XXX();
             //xXX.GetDisplays();
-          //  Console.ReadLine();
+            //  Console.ReadLine();
         }
     }
 }
