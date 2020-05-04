@@ -17,8 +17,8 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
         public string DetailedDescription { get; set; }
 
         public string Availability { get; set; }
-        public string ScreenHeight { get; set; }
-        public string ScreenWidth { get; set; }
+        public int ScreenHeight { get; set; }
+        public int ScreenWidth { get; set; }
         public RectStruct MonitorArea { get; set; }
         public RectStruct WorkArea { get; set; }
     }

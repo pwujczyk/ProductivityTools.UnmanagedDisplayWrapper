@@ -15,8 +15,9 @@ namespace ProductivityTools.UnmanagedDisplayWrapper.Runner
 
 
             //display.MoveMainDisplayToRight();
-            display.MoveMainDisplayToLeft();
-            //display.LoadData();
+            //display.MoveMainDisplayToLeft();
+            
+
             //XXX xXX = new UnmanagedDisplayWrapper.XXX();
             //xXX.GetDisplays();
             //  Console.ReadLine();

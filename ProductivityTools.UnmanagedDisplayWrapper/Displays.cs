@@ -8,7 +8,6 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
 {
     public interface IDisplays
     {
-        string ChangePosition(string name, int x, int y);
         void LoadData();
         void MoveExternalDisplayToRight();
         void MoveExternalDisplayToLeft();
@@ -18,8 +17,6 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
 
     public class Displays : List<Display>, IDisplays
     {
-        //List<Display> ConnectedDisplays { get; set; }
-
         public void LoadData()
         {
             LoadBasicInfo();
@@ -29,29 +26,46 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
         public void MoveMainDisplayToLeft()
         {
             LoadData();
-            ChangePosition(this[0].Name, -1 * this[0].MonitorArea.Right, 0);
+            OnlyOneDisplay();
+            Display secondDisplay = this[0];
+            string name = this[0].Name;
+            int xmove = -1 * this[0].MonitorArea.Right;
+            ChangeMainDisplayPosition(name, xmove, 0);
         }
 
         public void MoveMainDisplayToRight()
         {
             LoadData();
-            ChangePosition(this[0].Name, this[0].MonitorArea.Right, 0);
+            OnlyOneDisplay();
+            Display secondDisplay = this[0];
+            string name = this[0].Name;
+            int xmove = this[0].MonitorArea.Right;
+            ChangeMainDisplayPosition(name, xmove, 0);
         }
 
         public void MoveExternalDisplayToLeft()
         {
             LoadData();
-            External(3, -1600, 0);
+            OnlyOneDisplay();
+            Display secondDisplay = this[1];
+            uint id = secondDisplay.Id;
+            int xmove = -1 * secondDisplay.ScreenWidth;
+            ChangeExternalDisplayPosition(id, xmove, 0);
         }
 
         public void MoveExternalDisplayToRight()
         {
             LoadData();
-            External(3, 1600, 0);
+            OnlyOneDisplay();
+            Display secondDisplay = this[1];
+            uint id = secondDisplay.Id;
+            int xmove = secondDisplay.ScreenWidth;
+            ChangeExternalDisplayPosition(id, xmove, 0);
         }
 
         private void LoadBasicInfo()
         {
+            this.Clear();
             Native.DISPLAY_DEVICE d = new Native.DISPLAY_DEVICE();
             d.cb = Marshal.SizeOf(d);
             try
@@ -68,14 +82,11 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                         display.State = d.StateFlags;
                         display.DeviceId = d.DeviceID;
                         display.RegistryKey = d.DeviceKey;
-                        Log(id, d);
 
                         d.cb = Marshal.SizeOf(d);
                         Native.Methods.EnumDisplayDevices(d.DeviceName, 0, ref d, 0);
                         display.NameExtended = d.DeviceName;
                         display.DetailedDescription = d.DeviceString;
-                        Log(id, d);
-                        Console.WriteLine(); Console.WriteLine(); Console.WriteLine();
                     }
                     d.cb = Marshal.SizeOf(d);
                 }
@@ -110,8 +121,8 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
                     if (success)
                     {
                         var di = GetDisplay(mi.DeviceName);
-                        di.ScreenWidth = (mi.Monitor.Right - mi.Monitor.Left).ToString();
-                        di.ScreenHeight = (mi.Monitor.Bottom - mi.Monitor.Top).ToString();
+                        di.ScreenWidth = (mi.Monitor.Right - mi.Monitor.Left);
+                        di.ScreenHeight = (mi.Monitor.Bottom - mi.Monitor.Top);
                         di.MonitorArea = mi.Monitor;
                         di.WorkArea = mi.WorkArea;
                         di.Availability = mi.Flags.ToString();
@@ -129,7 +140,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             return dm;
         }
 
-        private void External(uint deviceId, int x, int y)
+        private void ChangeExternalDisplayPosition(uint deviceId, int x, int y)
         {
             DISPLAY_DEVICE d = new DISPLAY_DEVICE();
             DEVMODE dm = new DEVMODE();
@@ -144,7 +155,7 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             Native.Methods.ChangeDisplaySettingsEx(d.DeviceName, ref dm, IntPtr.Zero, ChangeDisplaySettingsFlags.CDS_UPDATEREGISTRY, IntPtr.Zero);
         }
 
-        public string ChangePosition(string name, int x, int y)
+        private string ChangeMainDisplayPosition(string name, int x, int y)
         {
             DEVMODE dm = GetDEVMODE();
             //if (0 != Native.Methods.EnumDisplaySettings(@"\\.\DISPLAY1", Native.Methods.ENUM_CURRENT_SETTINGS, ref dm))
@@ -184,57 +195,12 @@ namespace ProductivityTools.UnmanagedDisplayWrapper
             }
         }
 
-        //public string ChangePosition(string name, int x, int y)
-        //{
-        //    DEVMODE dm = GetDEVMODE();
-        //    x = 0;
-        //    y = 0;
-        // //   var xx = Methods.EnumDisplaySettings(@"\\.\DISPLAY1", Methods.ENUM_CURRENT_SETTINGS, ref dm);
-        //    //if (0 != Methods.EnumDisplaySettings(name, Methods.ENUM_CURRENT_SETTINGS, ref dm))
-        //        if (0 != Methods.EnumDisplaySettings(@"\\.\DISPLAY1", Methods.ENUM_CURRENT_SETTINGS, ref dm))
-        //        {
-        //        dm.dmPosition.x = x;
-        //        dm.dmPosition.y = y;
-
-        //        int iRet = Methods.ChangeDisplaySettings(ref dm, Methods.CDS_TEST);
-        //        if (iRet == Methods.DISP_CHANGE_FAILED)
-        //        {
-        //            return "Unable To Process Your Request. Sorry For This Inconvenience.";
-        //        }
-        //        else
-        //        {
-        //            iRet = Methods.ChangeDisplaySettings(ref dm, 0);
-        //            switch (iRet)
-        //            {
-        //                case Methods.DISP_CHANGE_SUCCESSFUL:
-        //                    {
-        //                        return "Success";
-        //                    }
-        //                case Methods.DISP_CHANGE_RESTART:
-        //                    {
-        //                        return "You Need To Reboot For The Change To Happen.\n If You Feel Any Problem After Rebooting Your Machine\nThen Try To Change Resolution In Safe Mode.";
-        //                    }
-        //                default:
-        //                    {
-        //                        return "Failed To Change The Position";
-        //                    }
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return "Failed To Change The Position.";
-        //    }
-        //}
-
-        private void Log(uint id, Native.DISPLAY_DEVICE d)
+        private void OnlyOneDisplay()
         {
-            Console.WriteLine($"id:{id}");
-            Console.WriteLine($"DeviceName:{d.DeviceName}");
-            Console.WriteLine($"DeviceString:{d.DeviceString}");
-            Console.WriteLine($"StateFlags:{d.StateFlags}");
-            Console.WriteLine($"DeviceId:{d.DeviceID}");
-            Console.WriteLine($"DeviceKey:{d.DeviceKey}");
+            if (this.Count == 1)
+            {
+                throw new Exception("Only one display detected, what would you like to move?");
+            }
         }
     }
 }
