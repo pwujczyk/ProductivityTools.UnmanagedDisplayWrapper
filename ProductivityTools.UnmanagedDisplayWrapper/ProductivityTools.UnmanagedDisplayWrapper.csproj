@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Paweł Wujczyk</Authors>
+    <Company />
+    <Description />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>ProductivityTools_blue_85px_1.png</PackageIcon>
+    <RepositoryUrl>https://github.com/pwujczyk/ProductivityTools.UnmanagedDisplayWrapper</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Images\Nuget\ProductivityTools_blue_85px_1.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
