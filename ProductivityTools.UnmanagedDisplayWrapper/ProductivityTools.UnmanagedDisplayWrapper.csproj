@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+ 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <Authors>Paweł Wujczyk</Authors>
     <Company />
     <Description />
@@ -9,6 +9,8 @@
     <PackageIcon>ProductivityTools_blue_85px_1.png</PackageIcon>
     <RepositoryUrl>https://github.com/pwujczyk/ProductivityTools.UnmanagedDisplayWrapper</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
+    <PackageTags>Screen Display Position Move Resolution</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
