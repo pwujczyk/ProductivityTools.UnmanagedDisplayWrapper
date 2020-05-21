@@ -35,7 +35,7 @@ After calling ``LoadData`` details about display can be retrieved from the objec
 
 ![DisplayDetails](Images/DisplayDetails.png)
 
-``Move*`` methods doesn't return any information.
+``Move*`` methods don't return any information.
 
 - What is the difference between moving external and main display?
 - I don't know. When I implemented moving main display my icons on the desktop were randomly moved, so I did also the external methods, which doesn't have this drawback. Maybe if you will have 3 monitors some difference will occur. 
