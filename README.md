@@ -33,6 +33,7 @@ All ``Move*`` methods before doing their thing are invoking the ``LoadData`` int
 
 After calling ``LoadData`` details about display can be retrieved from the object.
 
+<!--og-image-->
 ![DisplayDetails](Images/DisplayDetails.png)
 
 ``Move*`` methods don't return any information.
